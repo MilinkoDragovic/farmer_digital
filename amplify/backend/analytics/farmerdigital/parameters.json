@@ -1,0 +1,21 @@
+{
+    "appName": "farmerdigital",
+    "roleName": "pinpointLambdaRolee4662b2c",
+    "cloudformationPolicyName": "cloudformationPolicye4662b2c",
+    "cloudWatchPolicyName": "cloudWatchPolicye4662b2c",
+    "pinpointPolicyName": "pinpointPolicye4662b2c",
+    "authPolicyName": "pinpoint_amplify_e4662b2c",
+    "unauthPolicyName": "pinpoint_amplify_e4662b2c",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

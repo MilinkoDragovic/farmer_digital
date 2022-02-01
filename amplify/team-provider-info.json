@@ -1,0 +1,21 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-farmerdigital-dev-175708-authRole",
+      "UnauthRoleArn": "arn:aws:iam::480841895169:role/amplify-farmerdigital-dev-175708-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::480841895169:role/amplify-farmerdigital-dev-175708-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-farmerdigital-dev-175708-deployment",
+      "UnauthRoleName": "amplify-farmerdigital-dev-175708-unauthRole",
+      "StackName": "amplify-farmerdigital-dev-175708",
+      "StackId": "arn:aws:cloudformation:us-east-1:480841895169:stack/amplify-farmerdigital-dev-175708/dd901f00-6b23-11ec-b1be-0ea0edc1b421",
+      "AmplifyAppId": "d2q0xkggn2nae3"
+    },
+    "categories": {
+      "auth": {
+        "farmerdigitalf68c0435": {},
+        "true": {}
+      }
+    }
+  }
+}
