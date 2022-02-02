@@ -1,6 +1,11 @@
 import 'package:farmer_digital/constants.dart';
 import 'package:farmer_digital/screens/auth/authentication_bloc.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/on_boarding_cubit.dart';
+import 'package:farmer_digital/screens/auth/onBoarding/parts/center_next_button.dart';
+import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_auth_screen.dart';
+import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_begin_screen.dart';
+import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_eex_screen.dart';
+import 'package:farmer_digital/screens/auth/onBoarding/parts/top_back_skip_button.dart';
 import 'package:farmer_digital/screens/auth/welcome/welcome_screen.dart';
 import 'package:farmer_digital/services/helpers.dart';
 import 'package:farmer_digital/widgets/language_widget/language_selector.dart';
@@ -16,158 +21,169 @@ class OnBoardingScreen extends StatefulWidget {
   _OnBoardingScreenState createState() => _OnBoardingScreenState();
 }
 
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
+class _OnBoardingScreenState extends State<OnBoardingScreen>
+    with TickerProviderStateMixin {
   PageController pageController = PageController();
+  AnimationController? _animationController;
+
+  @override
+  void initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 8));
+    _animationController?.animateTo(0.0);
+    super.initState();
+  }
 
   @override
   void dispose() {
+    _animationController?.dispose();
     pageController.dispose();
     super.dispose();
   }
 
   final List<String> _titlesList = [
-    'Select your language',
     'Register your account on farmer digital',
     'Check EEX Data',
     'Connect your account with Food Business Digital',
   ];
 
   final List<String> _subtitlesList = [
-    'Choose language',
     'Create new account with personal E-mail address or connect with Gmail or AppleID',
     'Latest updated data for EEX',
     'Scan your QR Code from Food Business Digital to get all the modules',
   ];
 
-  final List<dynamic> _imageList = [
-    Icons.developer_mode,
-    Icons.developer_mode,
-    Icons.layers,
-    Icons.account_circle,
+  final List<String> _imageList = [
+    'assets/images/on-boarding-start-screen.png',
+    'assets/images/on-boarding-start-screen.png',
+    'assets/images/on-boarding-start-screen.png',
   ];
+
+  void _onSkipClick() {
+    _animationController?.animateTo(0.8,
+        duration: Duration(milliseconds: 1200));
+  }
+
+  void _onBackClick() {
+    if (_animationController!.value >= 0 &&
+        _animationController!.value <= 0.2) {
+      _animationController?.animateTo(0.0);
+    } else if (_animationController!.value > 0.2 &&
+        _animationController!.value <= 0.4) {
+      _animationController?.animateTo(0.2);
+    } else if (_animationController!.value > 0.4 &&
+        _animationController!.value <= 0.6) {
+      _animationController?.animateTo(0.4);
+    } else if (_animationController!.value > 0.6 &&
+        _animationController!.value <= 0.8) {
+      _animationController?.animateTo(0.6);
+    } else if (_animationController!.value > 0.8 &&
+        _animationController!.value <= 1.0) {
+      _animationController?.animateTo(0.8);
+    }
+  }
+
+  void _onNextClick() {
+    if (_animationController!.value >= 0 &&
+        _animationController!.value <= 0.2) {
+      _animationController?.animateTo(0.4);
+    } else if (_animationController!.value > 0.2 &&
+        _animationController!.value <= 0.4) {
+      _animationController?.animateTo(0.6);
+    } else if (_animationController!.value > 0.4 &&
+        _animationController!.value <= 0.6) {
+      _animationController?.animateTo(0.8);
+    } else if (_animationController!.value > 0.6 &&
+        _animationController!.value <= 0.8) {
+      _signUpClick();
+    }
+  }
+
+  void _signUpClick() {
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => OnBoardingCubit(),
       child: Scaffold(
-        backgroundColor: const Color(colorPrimary),
+        backgroundColor: Colors.white,
         body: BlocBuilder<OnBoardingCubit, OnBoardingInitial>(
             builder: (context, state) {
           return Stack(
             children: [
-              PageView.builder(
-                itemBuilder: (context, index) => getPage(
-                  index,
-                  _imageList[index],
-                  _titlesList[index],
-                  _subtitlesList[index],
-                  context,
-                ),
-                controller: pageController,
-                itemCount: _titlesList.length,
-                onPageChanged: (int index) {
-                  context.read<OnBoardingCubit>().onPageChanged(index);
-                },
+              OnBoardingBeginScreen(animationController: _animationController!),
+              OnBoardingAuthScreen(animationController: _animationController!),
+              OnBoardingEexScreen(animationController: _animationController!),
+              TopBackSkipView(
+                onBackClick: _onBackClick,
+                onSkipClick: _onSkipClick,
+                animationController: _animationController!,
               ),
-              Visibility(
-                visible: state.currentPageCount + 1 == _titlesList.length,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Align(
-                    alignment: Directionality.of(context) == TextDirection.ltr
-                        ? Alignment.bottomRight
-                        : Alignment.bottomLeft,
-                    child:
-                        BlocListener<AuthenticationBloc, AuthenticationState>(
-                      listener: (context, state) {
-                        if (state.authState == AuthState.unauthenticated) {
-                          pushAndRemoveUntil(context, WelcomeScreen(), false);
-                        }
-                      },
-                      child: OutlinedButton(
-                        onPressed: () {
-                          context
-                              .read<AuthenticationBloc>()
-                              .add(FinishedOnBoardingEvent());
-                        },
-                        child: const Text(
-                          'Continue',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Colors.white),
-                          shape: const StadiumBorder(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+              CenterNextButton(
+                animationController: _animationController!,
+                onNextClick: _onNextClick,
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 50.0),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SmoothPageIndicator(
-                    controller: pageController,
-                    count: _titlesList.length,
-                    effect: ScrollingDotsEffect(
-                      activeDotColor: Colors.white,
-                      dotColor: Colors.grey.shade400,
-                      dotHeight: 8,
-                      dotWidth: 8,
-                      fixedCenter: true,
-                    ),
-                  ),
-                ),
-              ),
+              // Visibility(
+              //   visible: state.currentPageCount + 1 == _titlesList.length,
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(16.0),
+              //     child: Align(
+              //       alignment: Directionality.of(context) == TextDirection.ltr
+              //           ? Alignment.bottomRight
+              //           : Alignment.bottomLeft,
+              //       child:
+              //           BlocListener<AuthenticationBloc, AuthenticationState>(
+              //         listener: (context, state) {
+              //           if (state.authState == AuthState.unauthenticated) {
+              //             pushAndRemoveUntil(context, WelcomeScreen(), false);
+              //           }
+              //         },
+              //         child: OutlinedButton(
+              //           onPressed: () {
+              //             context
+              //                 .read<AuthenticationBloc>()
+              //                 .add(FinishedOnBoardingEvent());
+              //           },
+              //           child: const Text(
+              //             'Continue',
+              //             style: TextStyle(
+              //               fontSize: 14.0,
+              //               color: Colors.white,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           style: OutlinedButton.styleFrom(
+              //             side: const BorderSide(color: Colors.white),
+              //             shape: const StadiumBorder(),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 50.0),
+              //   child: Align(
+              //     alignment: Alignment.bottomCenter,
+              //     child: SmoothPageIndicator(
+              //       controller: pageController,
+              //       count: 3,
+              //       effect: ScrollingDotsEffect(
+              //         activeDotColor: Colors.white,
+              //         dotColor: Colors.grey.shade400,
+              //         dotHeight: 8,
+              //         dotWidth: 8,
+              //         fixedCenter: true,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           );
         }),
       ),
     );
-  }
-
-  Widget getPage(int index, dynamic image, String title, String subtitle,
-      BuildContext context) {
-    return index == 0
-        ? const LanguageSelector()
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              image is String
-                  ? Image.asset(
-                      image,
-                      width: 150,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    )
-                  : Icon(
-                      image as IconData,
-                      color: Colors.white,
-                      size: 150,
-                    ),
-              const SizedBox(
-                height: 40,
-              ),
-              TranslateText('onBoardingTitle$index'),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  subtitle,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              )
-            ],
-          );
   }
 }

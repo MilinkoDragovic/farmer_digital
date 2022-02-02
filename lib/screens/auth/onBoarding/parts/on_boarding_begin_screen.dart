@@ -4,17 +4,17 @@ import 'package:farmer_digital/widgets/language_widget/language_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LanguageSelector extends StatefulWidget {
+class OnBoardingBeginScreen extends StatefulWidget {
   final AnimationController animationController;
 
-  const LanguageSelector({Key? key, required this.animationController})
+  const OnBoardingBeginScreen({Key? key, required this.animationController})
       : super(key: key);
 
   @override
-  _LanguageSelectorState createState() => _LanguageSelectorState();
+  _OnBoardingBeginScreenState createState() => _OnBoardingBeginScreenState();
 }
 
-class _LanguageSelectorState extends State<LanguageSelector> {
+class _OnBoardingBeginScreenState extends State<OnBoardingBeginScreen> {
   @override
   Widget build(BuildContext context) {
     final _introductionanimation =
@@ -99,13 +99,24 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                 child: ListView.builder(
                     itemCount: AvailableLocales.all.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return TextButton(
-                        onPressed: () {
-                          context.read<LanguageBloc>().add(ChangeLanguageEvent(
-                                locale: AvailableLocales.all[index],
-                              ));
-                        },
-                        child: Text(AvailableLocales.all[index].languageCode),
+                      return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            context
+                                .read<LanguageBloc>()
+                                .add(ChangeLanguageEvent(
+                                  locale: AvailableLocales.all[index],
+                                ));
+                          },
+                          icon: Icon(
+                            index == 0 ? Icons.check_outlined : null,
+                            color: Colors.green,
+                          ),
+                          label: Text(
+                            AvailableLocales.all[index].languageCode,
+                          ),
+                        ),
                       );
                     }),
               ),

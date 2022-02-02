@@ -6,14 +6,13 @@ import 'package:farmer_digital/widgets/loader/loading_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:farmer_digital/constants.dart';
 
 import 'package:farmer_digital/screens/auth/launcher/laucher_screen.dart';
 
 // Amplify configuration
-import 'package:farmer_digital/helpers/configure_amplify.dart';
+// import 'package:farmer_digital/helpers/configure_amplify.dart';
 
 void main() => runApp(MultiRepositoryProvider(
       providers: [
@@ -40,8 +39,6 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
         title: 'Farmer Digital',
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: bgColor,
-          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-              .apply(bodyColor: Colors.white),
           canvasColor: secondaryColor,
         ),
         locale: state.locale,
