@@ -6,7 +6,7 @@ part 'language_state.dart';
 class LanguageCubit extends Cubit<LanguageInitial> {
   LanguageCubit(LanguageState initialState) : super(LanguageInitial.initial());
 
-  ChangeLanguageEvent(Locale locale) {
+  changeLanguageEvent(Locale locale) {
     emit(LanguageInitial(locale));
   }
 }
