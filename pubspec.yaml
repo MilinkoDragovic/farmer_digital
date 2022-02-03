@@ -32,6 +32,7 @@ dependencies:
   
   flutter_localizations:
     sdk: flutter
+  intl: ^0.17.0
   equatable: ^2.0.3
 
   # The following adds the Cupertino Icons font to your application.
@@ -92,10 +93,6 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - assets/lang/en.json
-    - assets/lang/de.json
-    - assets/lang/fr.json
-    - assets/lang/nl.json
 
   fonts:
         - family: WorkSans

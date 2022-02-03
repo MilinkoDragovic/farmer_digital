@@ -1,6 +1,5 @@
 import 'package:farmer_digital/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:farmer_digital/widgets/language_widget/language_selector.dart';
 
 class OnBoardingPages extends StatelessWidget {
   final AnimationController animationController;

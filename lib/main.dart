@@ -1,11 +1,12 @@
-import 'package:farmer_digital/localizations/app_localization.dart';
-import 'package:farmer_digital/localizations/available_locales.dart';
+import 'package:farmer_digital/l10n/l10n.dart';
 import 'package:farmer_digital/screens/auth/authentication_bloc.dart';
 import 'package:farmer_digital/widgets/language_widget/language_bloc.dart';
 import 'package:farmer_digital/widgets/loader/loading_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:farmer_digital/constants.dart';
 
@@ -14,26 +15,26 @@ import 'package:farmer_digital/screens/auth/launcher/laucher_screen.dart';
 // Amplify configuration
 // import 'package:farmer_digital/helpers/configure_amplify.dart';
 
-void main() => runApp(MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (_) => AuthenticationBloc()),
-        RepositoryProvider(create: (_) => LanguageBloc()),
-        RepositoryProvider(create: (_) => LoadingCubit()),
-      ],
-      child: const MyApp(),
-    ));
+void main() => runApp(
+      MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(create: (context) => AuthenticationBloc()),
+          RepositoryProvider(
+              create: (context) => LanguageCubit(LanguageInitial.initial())),
+          RepositoryProvider(create: (context) => LoadingCubit()),
+        ],
+        child: const MyApp(),
+      ),
+    );
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget with WidgetsBindingObserver {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  MyAppState createState() => MyAppState();
-}
-
-class MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
+    return BlocBuilder<LanguageCubit, LanguageInitial>(
+        builder: (context, state) {
+      print(state.locale);
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Farmer Digital',
@@ -42,9 +43,9 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
           canvasColor: secondaryColor,
         ),
         locale: state.locale,
-        supportedLocales: AvailableLocales.all,
+        supportedLocales: L10n.all,
         localizationsDelegates: const [
-          AppLocalization.delegate,
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

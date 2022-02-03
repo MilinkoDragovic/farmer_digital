@@ -8,7 +8,6 @@ import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_eex_scr
 import 'package:farmer_digital/screens/auth/onBoarding/parts/top_back_skip_button.dart';
 import 'package:farmer_digital/screens/auth/welcome/welcome_screen.dart';
 import 'package:farmer_digital/services/helpers.dart';
-import 'package:farmer_digital/widgets/language_widget/language_selector.dart';
 import 'package:farmer_digital/widgets/translate_text_widget/translate_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

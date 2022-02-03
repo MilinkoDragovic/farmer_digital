@@ -1,5 +1,5 @@
-import 'package:farmer_digital/localizations/app_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TranslateText extends StatelessWidget {
   String data;
@@ -8,8 +8,9 @@ class TranslateText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale = Localizations.localeOf(context);
     return Text(
-      AppLocalization.of(context).getTranslatedValues(data) as String,
+      AppLocalizations.of(context)!.helloWorld,
       style: const TextStyle(
         color: Colors.white,
         fontSize: 18.0,

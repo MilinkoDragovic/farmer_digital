@@ -1,5 +1,6 @@
 import 'package:farmer_digital/constants.dart';
-import 'package:farmer_digital/localizations/available_locales.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:farmer_digital/l10n/l10n.dart';
 import 'package:farmer_digital/widgets/language_widget/language_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,9 @@ class OnBoardingBeginScreen extends StatefulWidget {
 }
 
 class _OnBoardingBeginScreenState extends State<OnBoardingBeginScreen> {
+  var languages = ["English", "German"];
+  String lang = "German";
+
   @override
   Widget build(BuildContext context) {
     final _introductionanimation =
@@ -28,131 +32,189 @@ class _OnBoardingBeginScreenState extends State<OnBoardingBeginScreen> {
       ),
     ));
 
-    return BlocProvider(
-      create: (context) => LanguageBloc(),
-      child: SlideTransition(
-        position: _introductionanimation,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 60.0, bottom: 30.0),
-                child: SizedBox(
-                  width: 200.0,
+    return BlocProvider<LanguageCubit>(
+      create: (context) => LanguageCubit(LanguageInitial.initial()),
+      child: Builder(builder: (context) {
+        return SlideTransition(
+          position: _introductionanimation,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: (MediaQuery.of(context).padding.top + 16),
+                        bottom: 20.0,
+                      ),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Image.asset(
+                          "assets/images/dark-logo.png",
+                          height: 80,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
                   child: Image.asset(
-                    'assets/images/dark-logo.png',
+                    'assets/images/on-boarding-start-screen.png',
                     fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  'assets/images/on-boarding-start-screen.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  top: 20.0,
-                  bottom: 10.0,
-                ),
-                child: Text(
-                  "Welcome to Farmer Digital",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color(textColor)),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  left: 20.0,
-                  right: 20.0,
-                ),
-                child: Text(
-                  "Welcome to the Farmer digital app. Please be free to go through on boarding steps.",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Color(textColor),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 20.0,
+                    bottom: 10.0,
+                    left: 20.0,
+                    right: 20.0,
                   ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  left: 20.0,
-                  right: 20.0,
-                  top: 10.0,
-                ),
-                child: Text(
-                  "Choose your language or leave the default one.",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Color(textColor),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 200,
-                height: 200,
-                child: ListView.builder(
-                    itemCount: AvailableLocales.all.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: TextButton.icon(
-                          onPressed: () {
-                            context
-                                .read<LanguageBloc>()
-                                .add(ChangeLanguageEvent(
-                                  locale: AvailableLocales.all[index],
-                                ));
-                          },
-                          icon: Icon(
-                            index == 0 ? Icons.check_outlined : null,
-                            color: Colors.green,
-                          ),
-                          label: Text(
-                            AvailableLocales.all[index].languageCode,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      RichText(
+                        text: const TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Welcome to ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Farmer Digital',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ],
+                          style: TextStyle(
+                            fontSize: 28.0,
+                            color: Color(textColor),
                           ),
                         ),
-                      );
-                    }),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).padding.bottom + 16),
-                child: InkWell(
-                  onTap: () {
-                    widget.animationController.animateTo(0.2);
-                  },
-                  child: Container(
-                    height: 58,
-                    padding: const EdgeInsets.only(
-                      left: 56.0,
-                      right: 56.0,
-                      top: 16,
-                      bottom: 16,
+                      ),
+                    ],
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(
+                    left: 20.0,
+                    right: 20.0,
+                    bottom: 20.0,
+                  ),
+                  child: Text(
+                    "Please be free to go through on boarding steps and change your default language if need to.",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      color: Color(textColor),
+                      fontSize: 18.0,
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20.0,
+                    right: 20.0,
+                    bottom: 40.0,
+                  ),
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(38.0),
-                      color: const Color(textColor),
+                      color: const Color(colorPrimary),
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: const Text(
-                      "Let's begin",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 30.0,
+                        right: 30.0,
+                        top: 5.0,
+                        bottom: 5.0,
+                      ),
+                      child: DropdownButton(
+                        value: lang,
+                        icon: const Padding(
+                          padding: EdgeInsets.only(left: 20.0),
+                          child: Icon(Icons.keyboard_arrow_down_rounded),
+                        ),
+                        iconEnabledColor: Colors.white,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                        dropdownColor: const Color(colorPrimary),
+                        underline: Container(),
+                        isExpanded: true,
+                        items: languages.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        onChanged: (String? value) {
+                          setState(() {
+                            if (value == 'English') {
+                              context
+                                  .read<LanguageCubit>()
+                                  .changeLanguageEvent(Locale('en', 'US'));
+                            } else {
+                              context
+                                  .read<LanguageCubit>()
+                                  .changeLanguageEvent(Locale('de'));
+                            }
+
+                            lang = value!;
+                          });
+                        },
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom + 16),
+                  child: InkWell(
+                    onTap: () {
+                      widget.animationController.animateTo(0.2);
+                    },
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: 60,
+                        padding: const EdgeInsets.only(
+                          left: 50.0,
+                          right: 50.0,
+                          top: 15.0,
+                          bottom: 15.0,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: const Color(colorPrimary),
+                        ),
+                        child: const Text(
+                          "Let's begin",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
