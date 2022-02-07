@@ -8,6 +8,7 @@ import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_finish_
 import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_eex_screen.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_connect_screen.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/parts/top_back_skip_button.dart';
+import 'package:farmer_digital/screens/auth/welcome/welcome_bloc.dart';
 import 'package:farmer_digital/screens/auth/welcome/welcome_screen.dart';
 import 'package:farmer_digital/services/helpers.dart';
 import 'package:farmer_digital/widgets/translate_text_widget/translate_text.dart';
@@ -42,24 +43,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
     super.dispose();
   }
 
-  final List<String> _titlesList = [
-    'Register your account on farmer digital',
-    'Check EEX Data',
-    'Connect your account with Food Business Digital',
-  ];
-
-  final List<String> _subtitlesList = [
-    'Create new account with personal E-mail address or connect with Gmail or AppleID',
-    'Latest updated data for EEX',
-    'Scan your QR Code from Food Business Digital to get all the modules',
-  ];
-
-  final List<String> _imageList = [
-    'assets/images/on-boarding-start-screen.png',
-    'assets/images/on-boarding-start-screen.png',
-    'assets/images/on-boarding-start-screen.png',
-  ];
-
   void _onSkipClick() {
     _animationController?.animateTo(0.8,
         duration: Duration(milliseconds: 1200));
@@ -91,17 +74,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
     } else if (_animationController!.value > 0.2 &&
         _animationController!.value <= 0.4) {
       _animationController?.animateTo(0.6);
-    } else if (_animationController!.value > 0.4 &&
-        _animationController!.value <= 0.6) {
-      _animationController?.animateTo(0.8);
-    } else if (_animationController!.value > 0.6 &&
-        _animationController!.value <= 0.8) {
-      _signUpClick();
     }
-  }
-
-  void _signUpClick() {
-    Navigator.pop(context);
   }
 
   @override
@@ -136,7 +109,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
               ),
               CenterNextButton(
                 animationController: _animationController!,
-                onNextClick: _onNextClick,
+                onNextClick: () => _animationController!.value <= 0.6 &&
+                        _animationController!.value > 0.5
+                    ? {
+                        _animationController?.animateTo(0.8),
+                        // context
+                        //     .read<AuthenticationBloc>()
+                        //     .add(FinishedOnBoardingEvent()),
+                      }
+                    : _onNextClick(),
               ),
               // Visibility(
               //   visible: state.currentPageCount + 1 == _titlesList.length,

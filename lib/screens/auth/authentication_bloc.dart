@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:amplify_flutter/amplify.dart';
+//import 'package:amplify_flutter/amplify.dart';
 import 'package:bloc/bloc.dart';
 import 'package:farmer_digital/constants.dart';
 import 'package:farmer_digital/models/user.dart';
@@ -28,7 +28,8 @@ class AuthenticationBloc
       if (!finishedOnBoarding) {
         emit(const AuthenticationState.onBoarding());
       } else {
-        user = (await Amplify.Auth.fetchUserAttributes()) as User?;
+        //user = (await Amplify.Auth.fetchUserAttributes()) as User?;
+        user = null;
 
         if (user == null) {
           emit(const AuthenticationState.unauthenticated());
@@ -79,7 +80,7 @@ class AuthenticationBloc
       }
     });
     on<LogoutEvent>((event, emit) async {
-      await Amplify.Auth.signOut();
+      //await Amplify.Auth.signOut();
       user = null;
       emit(const AuthenticationState.unauthenticated());
     });

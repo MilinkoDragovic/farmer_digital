@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -29,7 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
@@ -39,16 +39,16 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  flutter_svg: ^0.22.0
-  fl_chart: ^0.36.1
+  flutter_svg: ^1.0.3
+  fl_chart: ^0.41.0
   provider: ^6.0.0
   data_table_2: ^2.0.3
   animations: ^2.0.0
 
-  amplify_flutter: ^0.2.6
-  amplify_datastore: ^0.2.6
-  amplify_auth_cognito: ^0.2.0
-  amplify_analytics_pinpoint: ^0.2.0
+  amplify_flutter: ^0.3.2
+  amplify_datastore: ^0.3.2
+  amplify_auth_cognito: ^0.3.2
+  amplify_analytics_pinpoint: ^0.3.2
 
   progress_dialog:
     git:
@@ -56,7 +56,7 @@ dependencies:
 
   http: ^0.13.4
   flutter_appauth: ^2.0.0
-  flutter_secure_storage: ^3.3.3
+  flutter_secure_storage: ^5.0.2
   bloc: ^8.0.2
   flutter_bloc: ^8.0.1
   shared_preferences: ^2.0.11
@@ -95,21 +95,21 @@ flutter:
     - assets/icons/
 
   fonts:
-        - family: WorkSans
-          fonts:
-              - asset: assets/fonts/WorkSans-Regular.ttf
-              - asset: assets/fonts/WorkSans-Medium.ttf
-                weight: 500
-              - asset: assets/fonts/WorkSans-SemiBold.ttf
-                weight: 600
-              - asset: assets/fonts/WorkSans-Bold.ttf
-                weight: 700
-        - family: Roboto
-          fonts:
-              - asset: assets/fonts/Roboto-Bold.ttf
-              - asset: assets/fonts/Roboto-Regular.ttf
-              - asset: assets/fonts/Roboto-Medium.ttf
-                weight: 400
+    - family: WorkSans
+      fonts:
+        - asset: assets/fonts/WorkSans-Regular.ttf
+        - asset: assets/fonts/WorkSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/WorkSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/WorkSans-Bold.ttf
+          weight: 700
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 400
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

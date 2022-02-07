@@ -1,5 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
+//import 'package:amplify_flutter/amplify.dart';
 import 'package:farmer_digital/models/user.dart';
 
 class AmplifyUtils {
@@ -9,15 +9,16 @@ class AmplifyUtils {
   static Future<dynamic> loginWithEmailAndPassword(
       String email, String password) async {
     try {
-      SignInResult result = await Amplify.Auth.signIn(
-        username: email,
-        password: password,
-      );
+      // SignInResult result = await Amplify.Auth.signIn(
+      //   username: email,
+      //   password: password,
+      // );
+      String result = 'dsadsa';
 
       return result;
     } on AuthException catch (e) {
       if (e.message.contains('already a user which is signed in')) {
-        await Amplify.Auth.signOut();
+        // await Amplify.Auth.signOut();
         return 'Problem logging in. Please try again.';
       }
       return e.message;
@@ -40,11 +41,13 @@ class AmplifyUtils {
         'mobileNumber': mobileNumber,
       };
 
-      SignUpResult result = await Amplify.Auth.signUp(
-        username: emailAddress,
-        password: password,
-        options: CognitoSignUpOptions(userAttributes: userAttributes),
-      );
+      // SignUpResult result = await Amplify.Auth.signUp(
+      //   username: emailAddress,
+      //   password: password,
+      //   options: CognitoSignUpOptions(userAttributes: userAttributes),
+      // );
+
+      String result = 'dsadsa';
 
       User user = User(
         email: emailAddress,
@@ -53,7 +56,7 @@ class AmplifyUtils {
         mobileNumber: mobileNumber,
       );
 
-      if (result.isSignUpComplete) {
+      if (result != '') {
         return user;
       } else {
         return 'Couldn\'t sign up for amplify, Please try again.';

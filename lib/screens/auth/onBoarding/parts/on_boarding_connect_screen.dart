@@ -117,7 +117,8 @@ class OnBoardingConnectScreen extends StatelessWidget {
                 child: SlideTransition(
                   position: _imageSecondHalfAnimation,
                   child: Container(
-                    constraints: BoxConstraints(maxWidth: 350, maxHeight: 250),
+                    constraints:
+                        const BoxConstraints(maxWidth: 350, maxHeight: 250),
                     child: Image.asset(
                       'assets/images/on_boarding_connect_screen.png',
                       fit: BoxFit.contain,
