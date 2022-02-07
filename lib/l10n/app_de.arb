@@ -1,3 +1,12 @@
 {
-    "helloWorld": "Hallo on German Text"
+    "welcomeTextPartOne": "Willkommen zu\n",
+    "welcomeTextPartTwo": "Farmer Digital",
+    "onBoardingBeginScreenDescription": "Bitte gehen Sie die Einstiegsschritte durch und ändern Sie bei Bedarf Ihre Standardsprache.",
+    "onBoardingBeginAuthScreenTitle": "Vervollständige deine Registrierung",
+    "onBoardingBeginAuthScreenDescription": "Erstellen Sie Ihr Konto mit persönlicher Adresse oder verbinden Sie sich mit dem Google- oder AppleID-Konto.",
+    "onBoardingEexScreenTitle": "EEX Market Data",
+    "onBoardingEexScreenDescription": "EEX Data ist in die App integriert. Überprüfen Sie die Daten der European Butter Futures, European Whey Powder Futures, European Magermilchpulver Futures und European Liquid Milk Futures.",
+    "onBoardingConnectScreenTitle": "Verbinden Sie sich mit der Milchplattform",
+    "onBoardingConnectScreenDescription": "Scannen Sie den QR-Code von der Milchplattform, um alle Module in der App zu erhalten.",
+    "welcomeScreenDescription": "Wenn Sie kein Konto haben, MELDEN SIE SICH AN oder gehen Sie zum Anmeldebildschirm, um zur App zu gelangen."
 }

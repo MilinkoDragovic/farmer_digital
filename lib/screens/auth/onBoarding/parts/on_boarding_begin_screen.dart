@@ -1,6 +1,5 @@
 import 'package:farmer_digital/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:farmer_digital/l10n/l10n.dart';
 import 'package:farmer_digital/widgets/language_widget/language_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +36,7 @@ class _OnBoardingBeginScreenState extends State<OnBoardingBeginScreen> {
       child: Builder(builder: (context) {
         return SlideTransition(
           position: _introductionanimation,
-          child: SingleChildScrollView(
+          child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -62,10 +61,11 @@ class _OnBoardingBeginScreenState extends State<OnBoardingBeginScreen> {
                   ],
                 ),
                 SizedBox(
+                  height: 180,
                   width: MediaQuery.of(context).size.width,
                   child: Image.asset(
-                    'assets/images/on-boarding-start-screen.png',
-                    fit: BoxFit.cover,
+                    'assets/images/on_boarding_start_screen.png',
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
                 Padding(
@@ -79,41 +79,46 @@ class _OnBoardingBeginScreenState extends State<OnBoardingBeginScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      RichText(
-                        text: const TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Welcome to ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
+                      Flexible(
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: AppLocalizations.of(context)!
+                                    .welcomeTextPartOne,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'Farmer Digital',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
+                              TextSpan(
+                                text: AppLocalizations.of(context)!
+                                    .welcomeTextPartTwo,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                ),
                               ),
+                            ],
+                            style: const TextStyle(
+                              fontSize: 30.0,
+                              color: Color(textColor),
                             ),
-                          ],
-                          style: TextStyle(
-                            fontSize: 28.0,
-                            color: Color(textColor),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(
+                Padding(
+                  padding: const EdgeInsets.only(
                     left: 20.0,
                     right: 20.0,
                     bottom: 20.0,
                   ),
                   child: Text(
-                    "Please be free to go through on boarding steps and change your default language if need to.",
+                    AppLocalizations.of(context)!
+                        .onBoardingBeginScreenDescription,
                     textAlign: TextAlign.start,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(textColor),
                       fontSize: 18.0,
                     ),
@@ -178,7 +183,8 @@ class _OnBoardingBeginScreenState extends State<OnBoardingBeginScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom + 16),
+                    bottom: MediaQuery.of(context).padding.bottom,
+                  ),
                   child: InkWell(
                     onTap: () {
                       widget.animationController.animateTo(0.2);

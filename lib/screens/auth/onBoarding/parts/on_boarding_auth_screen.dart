@@ -1,4 +1,6 @@
+import 'package:farmer_digital/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingAuthScreen extends StatelessWidget {
   final AnimationController animationController;
@@ -9,7 +11,7 @@ class OnBoardingAuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _firstHalfAnimation =
-        Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0))
+        Tween<Offset>(begin: const Offset(0, 1.2), end: const Offset(0, 0))
             .animate(
       CurvedAnimation(
         parent: animationController,
@@ -37,7 +39,7 @@ class OnBoardingAuthScreen extends StatelessWidget {
             .animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(
+        curve: const Interval(
           0.2,
           0.4,
           curve: Curves.fastOutSlowIn,
@@ -74,25 +76,42 @@ class OnBoardingAuthScreen extends StatelessWidget {
       child: SlideTransition(
         position: _secondHalfAnimation,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 100),
+          padding: const EdgeInsets.only(
+            bottom: 100.0,
+            left: 25.0,
+            right: 25.0,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SlideTransition(
                 position: _relaxAnimation,
-                child: const Text(
-                  "Relax",
-                  style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
+                child: Text(
+                  AppLocalizations.of(context)!.onBoardingBeginAuthScreenTitle,
+                  style: const TextStyle(
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color(textColor),
+                  ),
+                  textAlign: TextAlign.left,
                 ),
               ),
               SlideTransition(
                 position: _textAnimation,
-                child: const Padding(
-                  padding:
-                      EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 16),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 16.0,
+                    bottom: 30.0,
+                  ),
                   child: Text(
-                    "Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore",
-                    textAlign: TextAlign.center,
+                    AppLocalizations.of(context)!
+                        .onBoardingBeginAuthScreenDescription,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Color(textColor),
+                      fontSize: 18.0,
+                      height: 1.3,
+                    ),
                   ),
                 ),
               ),
@@ -102,7 +121,7 @@ class OnBoardingAuthScreen extends StatelessWidget {
                   constraints:
                       const BoxConstraints(maxWidth: 350, maxHeight: 250),
                   child: Image.asset(
-                    'assets/images/on-boarding-start-screen.png',
+                    'assets/images/on_boarding_auth_screen.png',
                     fit: BoxFit.contain,
                   ),
                 ),

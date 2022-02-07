@@ -4,7 +4,9 @@ import 'package:farmer_digital/screens/auth/onBoarding/on_boarding_cubit.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/parts/center_next_button.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_auth_screen.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_begin_screen.dart';
+import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_finish_screen.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_eex_screen.dart';
+import 'package:farmer_digital/screens/auth/onBoarding/parts/on_boarding_connect_screen.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/parts/top_back_skip_button.dart';
 import 'package:farmer_digital/screens/auth/welcome/welcome_screen.dart';
 import 'package:farmer_digital/services/helpers.dart';
@@ -112,9 +114,21 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
             builder: (context, state) {
           return Stack(
             children: [
-              OnBoardingBeginScreen(animationController: _animationController!),
-              OnBoardingAuthScreen(animationController: _animationController!),
-              OnBoardingEexScreen(animationController: _animationController!),
+              OnBoardingBeginScreen(
+                animationController: _animationController!,
+              ),
+              OnBoardingAuthScreen(
+                animationController: _animationController!,
+              ),
+              OnBoardingEexScreen(
+                animationController: _animationController!,
+              ),
+              OnBoardingConnectScreen(
+                animationController: _animationController!,
+              ),
+              OnBoardingFinishScreen(
+                animationController: _animationController!,
+              ),
               TopBackSkipView(
                 onBackClick: _onBackClick,
                 onSkipClick: _onSkipClick,

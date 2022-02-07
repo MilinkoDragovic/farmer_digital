@@ -59,7 +59,12 @@ class TopBackSkipView extends StatelessWidget {
                   child: IconButton(
                     color: const Color(colorPrimary),
                     onPressed: onSkipClick,
-                    icon: const Text('Skip'),
+                    icon: const Text(
+                      'Skip',
+                      style: TextStyle(
+                        color: Color(colorPrimary),
+                      ),
+                    ),
                   ),
                 ),
               ],

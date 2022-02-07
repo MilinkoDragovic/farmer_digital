@@ -1,6 +1,42 @@
 {
-    "helloWorld": "Hello World!",
-    "@helloWorld": {
-      "description": "The conventional newborn programmer greeting"
+    "welcomeTextPartOne": "Welcome to\n",
+    "@welcomeTextPartOne": {
+      "description": "First part of the welcome text on boarding begin screen"
+    },
+    "welcomeTextPartTwo": "Farmer Digital",
+    "@welcomeTextPartTwo": {
+      "description": "Second part of the welcome text on boarding begin screen"
+    },
+    "onBoardingBeginScreenDescription": "Please be free to go through on boarding steps and change your default language if need to.",
+    "@onBoardingBeginScreenDescription": {
+      "description": "Description for on boarding beging screen"
+    },
+    "onBoardingBeginAuthScreenTitle": "Complete your Registration",
+    "@onBoardingBeginAuthScreenTitle": {
+      "description": "Title for onboarding auth screen"
+    },
+    "onBoardingBeginAuthScreenDescription": "Create your account with personal address or connect with the Google or AppleID account.",
+    "@onBoardingBeginAuthScreenDescription": {
+      "description": "Description for onboarding auth screen"
+    },
+    "onBoardingEexScreenTitle": "EEX Market Data",
+    "@onBoardingEexScreenTitle": {
+      "description": "Title for onboarding eex screen"
+    },
+    "onBoardingEexScreenDescription": "EEX Data is integrated within the app. Review data of European Butter Futures, European Whey Powder Futures, European Skimmed Milk Powder Futures and European Liquid Milk Futures.",
+    "@onBoardingEexScreenDescription": {
+      "description": "Description for onboarding eex screen"
+    },
+    "onBoardingConnectScreenTitle": "Connect with Milk Platform",
+    "@onBoardingConnectScreenTitle": {
+      "description": "Title for onboarding connect screen"
+    },
+    "onBoardingConnectScreenDescription": "Scan QR Code from Milk Platform to get all the modules inside of the app.",
+    "@onBoardingConnectScreenDescription": {
+      "description": "Description for onboarding connect screen"
+    },
+    "welcomeScreenDescription": "If you dont have an account SIGN IN or go to login screen to procced to the app.",
+    "@welcomeScreenDescription": {
+      "description": "Description for welcome screen"
     }
 }

@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:farmer_digital/constants.dart';
 import 'package:flutter/material.dart';
 
 class CenterNextButton extends StatelessWidget {
@@ -10,11 +11,12 @@ class CenterNextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(animationController.value);
     final _topMoveAnimation =
-        Tween<Offset>(begin: Offset(0, 5), end: Offset(0, 0))
+        Tween<Offset>(begin: const Offset(0, 5), end: const Offset(0, 0))
             .animate(CurvedAnimation(
       parent: animationController,
-      curve: Interval(
+      curve: const Interval(
         0.0,
         0.2,
         curve: Curves.fastOutSlowIn,
@@ -23,17 +25,17 @@ class CenterNextButton extends StatelessWidget {
     final _signUpMoveAnimation =
         Tween<double>(begin: 0, end: 1.0).animate(CurvedAnimation(
       parent: animationController,
-      curve: Interval(
+      curve: const Interval(
         0.6,
         0.8,
         curve: Curves.fastOutSlowIn,
       ),
     ));
     final _loginTextMoveAnimation =
-        Tween<Offset>(begin: Offset(0, 5), end: Offset(0, 0))
+        Tween<Offset>(begin: const Offset(0, 5), end: const Offset(0, 0))
             .animate(CurvedAnimation(
       parent: animationController,
-      curve: Interval(
+      curve: const Interval(
         0.6,
         0.8,
         curve: Curves.fastOutSlowIn,
@@ -41,8 +43,7 @@ class CenterNextButton extends StatelessWidget {
     ));
 
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: 16 + MediaQuery.of(context).padding.bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,7 +57,7 @@ class CenterNextButton extends StatelessWidget {
                         animationController.value <= 0.6
                     ? 1
                     : 0,
-                duration: Duration(milliseconds: 480),
+                duration: const Duration(milliseconds: 480),
                 child: _pageView(),
               ),
             ),
@@ -67,7 +68,10 @@ class CenterNextButton extends StatelessWidget {
               animation: animationController,
               builder: (context, child) => Padding(
                 padding: EdgeInsets.only(
-                    bottom: 38 - (38 * _signUpMoveAnimation.value)),
+                  bottom: _signUpMoveAnimation.value >= 0.7
+                      ? 0
+                      : 38 - (38 * _signUpMoveAnimation.value),
+                ),
                 child: Container(
                   height: 58,
                   width: 58 + (200 * _signUpMoveAnimation.value),
@@ -77,7 +81,7 @@ class CenterNextButton extends StatelessWidget {
                     color: Color(0xff132137),
                   ),
                   child: PageTransitionSwitcher(
-                    duration: Duration(milliseconds: 480),
+                    duration: const Duration(milliseconds: 480),
                     reverse: _signUpMoveAnimation.value < 0.7,
                     transitionBuilder: (
                       Widget child,
@@ -131,26 +135,39 @@ class CenterNextButton extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(
+              top: 10,
+              bottom: 10,
+            ),
+            child: Text(
+              'Already have an account?',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 0.0,
+              left: 0.0,
+              bottom: 100,
+            ),
             child: SlideTransition(
               position: _loginTextMoveAnimation,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Already have an account? ',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      minimumSize: const Size.fromHeight(50), // NEW
                     ),
-                  ),
-                  Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Color(0xff132137),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    onPressed: () {},
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(fontSize: 24),
                     ),
                   ),
                 ],
@@ -180,11 +197,11 @@ class CenterNextButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          for (var i = 0; i < 3; i++)
+          for (var i = 0; i < 4; i++)
             Padding(
               padding: const EdgeInsets.all(4),
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 480),
+                duration: const Duration(milliseconds: 480),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
                   color: _selectedIndex == i
@@ -194,7 +211,7 @@ class CenterNextButton extends StatelessWidget {
                 width: 10,
                 height: 10,
               ),
-            )
+            ),
         ],
       ),
     );

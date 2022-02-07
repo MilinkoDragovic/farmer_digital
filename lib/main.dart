@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
           scaffoldBackgroundColor: bgColor,
           canvasColor: secondaryColor,
         ),
-        locale: state.locale,
+        // locale: state.locale,
         supportedLocales: L10n.all,
         localizationsDelegates: const [
           AppLocalizations.delegate,

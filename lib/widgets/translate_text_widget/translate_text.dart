@@ -10,7 +10,7 @@ class TranslateText extends StatelessWidget {
   Widget build(BuildContext context) {
     final Locale locale = Localizations.localeOf(context);
     return Text(
-      AppLocalizations.of(context)!.helloWorld,
+      AppLocalizations.of(context)!.welcomeTextPartOne,
       style: const TextStyle(
         color: Colors.white,
         fontSize: 18.0,
