@@ -9,3 +9,5 @@ const textColor = 0xFF323B3F;
 const defaultPadding = 16.0;
 
 const FINISHED_ON_BOARDING = 'finishedOnBoarding';
+const TERMS_OF_USE =
+    'https://www.termsfeed.com/blog/sample-terms-of-use-template/';

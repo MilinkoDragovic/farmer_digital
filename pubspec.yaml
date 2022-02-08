@@ -60,6 +60,7 @@ dependencies:
   bloc: ^8.0.2
   flutter_bloc: ^8.0.1
   shared_preferences: ^2.0.11
+  url_launcher: ^6.0.18
 
   smooth_page_indicator: ^1.0.0+2
 

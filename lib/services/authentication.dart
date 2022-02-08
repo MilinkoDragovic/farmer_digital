@@ -1,5 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-//import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:farmer_digital/models/user.dart';
 
 class AmplifyUtils {
@@ -33,21 +33,19 @@ class AmplifyUtils {
     required String mobileNumber,
   }) async {
     try {
-      Map<String, String> userAttributes = {
-        'emailAddress': emailAddress,
-        'password': password,
-        'firstName': firstName,
-        'lastName': lastName,
-        'mobileNumber': mobileNumber,
+      Map<CognitoUserAttributeKey, String> userAttributes = {
+        CognitoUserAttributeKey.email: emailAddress,
+        CognitoUserAttributeKey.phoneNumber: mobileNumber,
+        CognitoUserAttributeKey.givenName: firstName,
+        CognitoUserAttributeKey.familyName: lastName,
+        // additional attributes as needed
       };
 
-      // SignUpResult result = await Amplify.Auth.signUp(
-      //   username: emailAddress,
-      //   password: password,
-      //   options: CognitoSignUpOptions(userAttributes: userAttributes),
-      // );
-
-      String result = 'dsadsa';
+      SignUpResult result = await Amplify.Auth.signUp(
+        username: emailAddress,
+        password: password,
+        options: CognitoSignUpOptions(userAttributes: userAttributes),
+      );
 
       User user = User(
         email: emailAddress,
@@ -56,7 +54,7 @@ class AmplifyUtils {
         mobileNumber: mobileNumber,
       );
 
-      if (result != '') {
+      if (result.isSignUpComplete) {
         return user;
       } else {
         return 'Couldn\'t sign up for amplify, Please try again.';

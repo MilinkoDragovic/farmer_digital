@@ -13,19 +13,23 @@ import 'package:farmer_digital/constants.dart';
 import 'package:farmer_digital/screens/auth/launcher/laucher_screen.dart';
 
 // Amplify configuration
-// import 'package:farmer_digital/helpers/configure_amplify.dart';
+import 'package:farmer_digital/helpers/configure_amplify.dart';
 
-void main() => runApp(
-      MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider(create: (context) => AuthenticationBloc()),
-          RepositoryProvider(
-              create: (context) => LanguageCubit(LanguageInitial.initial())),
-          RepositoryProvider(create: (context) => LoadingCubit()),
-        ],
-        child: const MyApp(),
-      ),
-    );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureAmplify();
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => AuthenticationBloc()),
+        RepositoryProvider(
+            create: (context) => LanguageCubit(LanguageInitial.initial())),
+        RepositoryProvider(create: (context) => LoadingCubit()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget with WidgetsBindingObserver {
   const MyApp({Key? key}) : super(key: key);

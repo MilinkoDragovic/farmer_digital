@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
+  late User user;
   @override
   Widget build(BuildContext context) {
     return const Text('Home screen');
