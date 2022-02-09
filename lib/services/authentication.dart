@@ -9,18 +9,47 @@ class AmplifyUtils {
   static Future<dynamic> loginWithEmailAndPassword(
       String email, String password) async {
     try {
-      // SignInResult result = await Amplify.Auth.signIn(
-      //   username: email,
-      //   password: password,
-      // );
-      String result = 'dsadsa';
+      await Amplify.Auth.signOut();
+      SignInResult result = await Amplify.Auth.signIn(
+        username: email,
+        password: password,
+      );
 
       return result;
+    } on NotAuthorizedException catch (notAuthorizedException) {
+      return notAuthorizedException.message;
     } on AuthException catch (e) {
       if (e.message.contains('already a user which is signed in')) {
         // await Amplify.Auth.signOut();
         return 'Problem logging in. Please try again.';
       }
+
+      if (e.message.contains('User not confirmed in the system.')) {
+        return 'notConfirmed';
+      }
+      return e.message;
+    }
+  }
+
+  static Future<dynamic> resendConfirmationCode(String email) async {
+    try {
+      final result = await Amplify.Auth.resendSignUpCode(username: email);
+
+      return result;
+    } on AuthException catch (e) {
+      return e.message;
+    }
+  }
+
+  static Future<dynamic> confirmSignUp(String email, String code) async {
+    try {
+      final result = await Amplify.Auth.confirmSignUp(
+        username: email,
+        confirmationCode: code,
+      );
+
+      return result;
+    } on AuthException catch (e) {
       return e.message;
     }
   }

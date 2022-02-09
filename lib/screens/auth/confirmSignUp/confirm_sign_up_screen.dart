@@ -1,32 +1,43 @@
 import 'package:farmer_digital/constants.dart';
 import 'package:farmer_digital/screens/auth/authentication_bloc.dart';
-import 'package:farmer_digital/screens/auth/confirmSignUp/confirm_sign_up_screen.dart';
+import 'package:farmer_digital/screens/auth/confirmSignUp/confirm_sign_up_bloc.dart';
 import 'package:farmer_digital/screens/auth/login/login_bloc.dart';
-import 'package:farmer_digital/screens/auth/resetPassword/reset_password_screen.dart';
 import 'package:farmer_digital/screens/home/home_screen.dart';
 import 'package:farmer_digital/services/helpers.dart';
 import 'package:farmer_digital/widgets/loader/loading_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class ConfirmSignUpScreen extends StatefulWidget {
+  final String? email;
+  final String? password;
+  const ConfirmSignUpScreen(
+      {Key? key, required this.email, required this.password})
+      : super(key: key);
 
   @override
   State createState() {
-    return _LoginScreen();
+    return _ConfirmSignUpScreen();
   }
 }
 
-class _LoginScreen extends State<LoginScreen> {
+class _ConfirmSignUpScreen extends State<ConfirmSignUpScreen> {
+  late String? email, password;
   final GlobalKey<FormState> _key = GlobalKey();
   AutovalidateMode _validate = AutovalidateMode.disabled;
-  String? email, password;
+  String? code;
+
+  @override
+  void initState() {
+    super.initState();
+    email = widget.email;
+    password = widget.password;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginBloc>(
-      create: (context) => LoginBloc(),
+    return BlocProvider<ConfirmSignUpBloc>(
+      create: (context) => ConfirmSignUpBloc(),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
@@ -44,38 +55,41 @@ class _LoginScreen extends State<LoginScreen> {
                   if (state.authState == AuthState.authenticated) {
                     pushAndRemoveUntil(
                         context, HomeScreen(user: state.user!), false);
-                  } else if (state.authState == AuthState.noConfirmed) {
-                    push(
-                        context,
-                        ConfirmSignUpScreen(
-                          email: state.email!,
-                          password: state.password,
-                        ));
-                  } else {
-                    showSnackBar(context,
-                        state.message ?? 'Couldn\'t login. Please try again.');
-                  }
-                },
-              ),
-              BlocListener<LoginBloc, LoginState>(
-                listener: (context, state) {
-                  if (state is ValidLoginFields) {
-                    context.read<LoadingCubit>().showLoading(
-                          context,
-                          'Logging in, Please wait..',
-                          false,
-                        );
+                  } else if (state.authState == AuthState.confirmed) {
                     context.read<AuthenticationBloc>().add(
                           LoginWithEmailAndPasswordEvent(
                             email: email!,
                             password: password!,
                           ),
                         );
+                  } else {
+                    showSnackBar(
+                        context,
+                        state.message ??
+                            'Couldn\'t verify code. Please try again.');
+                  }
+                },
+              ),
+              BlocListener<ConfirmSignUpBloc, ConfirmSignUpState>(
+                listener: (context, state) {
+                  if (state is ValidConfirmSignUpField) {
+                    context.read<LoadingCubit>().showLoading(
+                          context,
+                          'Verifing code, Please wait..',
+                          false,
+                        );
+
+                    context.read<AuthenticationBloc>().add(
+                          ConfirmSignUpCodeEvent(
+                            email: email!,
+                            code: code!,
+                          ),
+                        );
                   }
                 },
               ),
             ],
-            child: BlocBuilder<LoginBloc, LoginState>(
+            child: BlocBuilder<ConfirmSignUpBloc, ConfirmSignUpState>(
               buildWhen: (previous, current) =>
                   current is LoginFailureState && previous != current,
               builder: (context, state) {
@@ -87,15 +101,15 @@ class _LoginScreen extends State<LoginScreen> {
                   autovalidateMode: _validate,
                   child: ListView(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
+                      Padding(
+                        padding: const EdgeInsets.only(
                           top: 32.0,
                           right: 16.0,
                           left: 16.0,
                         ),
                         child: Text(
-                          'Sign In',
-                          style: TextStyle(
+                          'Verify account: $email',
+                          style: const TextStyle(
                             color: Color(colorPrimary),
                             fontSize: 25.0,
                             fontWeight: FontWeight.bold,
@@ -111,62 +125,48 @@ class _LoginScreen extends State<LoginScreen> {
                         child: TextFormField(
                           textAlignVertical: TextAlignVertical.center,
                           textInputAction: TextInputAction.next,
-                          validator: validateEmail,
+                          validator: validateConfirmationCode,
                           onSaved: (String? val) {
-                            email = val;
+                            code = val;
                           },
+                          onFieldSubmitted: (code) => context
+                              .read<ConfirmSignUpBloc>()
+                              .add(ValidateConfirmSignUpFieldsEvent(_key)),
                           style: const TextStyle(
                             fontSize: 18.0,
                           ),
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.number,
                           cursorColor: const Color(colorPrimary),
-                          decoration: getInputDecoration(
-                            hint: 'Email Address',
-                            errorColor: Theme.of(context).errorColor,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 32.0, right: 24.0, left: 24.0),
-                        child: TextFormField(
-                          textAlignVertical: TextAlignVertical.center,
-                          obscureText: true,
-                          validator: validatePassword,
-                          onSaved: (String? val) {
-                            password = val;
-                          },
-                          onFieldSubmitted: (password) => context
-                              .read<LoginBloc>()
-                              .add(ValidateLoginFieldsEvent(_key)),
-                          textInputAction: TextInputAction.done,
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                          ),
-                          cursorColor: const Color(colorPrimary),
-                          decoration: getInputDecoration(
-                              hint: 'Password',
-                              errorColor: Theme.of(context).errorColor),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 16.0,
-                          right: 24.0,
-                        ),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () =>
-                                push(context, const ResetPasswordScreen()),
-                            child: const Text(
-                              'Forgot password?',
-                              style: TextStyle(
-                                color: Colors.lightBlue,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15.0,
-                                letterSpacing: 1.0,
-                              ),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            fillColor: Colors.white,
+                            hintText: 'Verification code',
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                    color: Color(colorPrimary), width: 2.0)),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).errorColor),
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).errorColor),
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade200),
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () => context
+                                  .read<ConfirmSignUpBloc>()
+                                  .add(SendConfirmationCodeEvent(
+                                      emailAddress: email!)),
+                              icon: Icon(Icons.clear),
                             ),
                           ),
                         ),
@@ -186,7 +186,7 @@ class _LoginScreen extends State<LoginScreen> {
                             primary: const Color(colorPrimary),
                           ),
                           child: const Text(
-                            'Log In',
+                            'Complete Sign up',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -194,8 +194,8 @@ class _LoginScreen extends State<LoginScreen> {
                             ),
                           ),
                           onPressed: () => context
-                              .read<LoginBloc>()
-                              .add(ValidateLoginFieldsEvent(_key)),
+                              .read<ConfirmSignUpBloc>()
+                              .add(ValidateConfirmSignUpFieldsEvent(_key)),
                         ),
                       ),
                     ],

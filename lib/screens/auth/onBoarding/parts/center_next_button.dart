@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:farmer_digital/constants.dart';
+import 'package:farmer_digital/screens/auth/login/login_screen.dart';
 import 'package:farmer_digital/screens/auth/signUp/signup_screen.dart';
 import 'package:farmer_digital/services/helpers.dart';
 import 'package:flutter/material.dart';
@@ -149,8 +150,8 @@ class CenterNextButton extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
+                      const Padding(
+                        padding: EdgeInsets.only(
                           bottom: 15.0,
                           top: 10.0,
                         ),
@@ -163,13 +164,26 @@ class CenterNextButton extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(
-                        'Login',
-                        style: TextStyle(
-                          color: const Color(textColor),
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color(colorPrimary),
+                          textStyle: const TextStyle(color: Color(textColor)),
+                          padding: const EdgeInsets.only(top: 12, bottom: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            side: const BorderSide(color: Color(colorPrimary)),
+                          ),
                         ),
+                        child: const Text(
+                          'Log In',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () {
+                          return push(context, const LoginScreen());
+                        },
                       ),
                     ],
                   )

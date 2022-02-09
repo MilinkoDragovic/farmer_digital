@@ -32,6 +32,19 @@ String? validatePassword(String? value) {
   }
 }
 
+String? validateConfirmationCode(String? value) {
+  String pattern = r'(^\+?[0-9]*$)';
+  String patternNumberLength = r'(^[a-z]{6}$)';
+  RegExp regExpNumberLength = RegExp(patternNumberLength);
+  RegExp regExp = RegExp(pattern);
+  if (value?.isEmpty ?? true) {
+    return "Code is required";
+  } else if (!regExp.hasMatch(value ?? '')) {
+    return "Code must contain only digits.";
+  }
+  return null;
+}
+
 String? validateEmail(String? value) {
   String pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';

@@ -16,6 +16,16 @@ class LoginWithEmailAndPasswordEvent extends AuthenticationEvent {
   });
 }
 
+class ConfirmSignUpCodeEvent extends AuthenticationEvent {
+  String email;
+  String code;
+
+  ConfirmSignUpCodeEvent({
+    required this.email,
+    required this.code,
+  });
+}
+
 class SignupWithEmailAndPasswordEvent extends AuthenticationEvent {
   String emailAddress;
   String password;

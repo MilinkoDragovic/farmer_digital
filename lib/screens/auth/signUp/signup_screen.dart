@@ -1,5 +1,6 @@
 import 'package:farmer_digital/constants.dart';
 import 'package:farmer_digital/screens/auth/authentication_bloc.dart';
+import 'package:farmer_digital/screens/auth/confirmSignUp/confirm_sign_up_screen.dart';
 import 'package:farmer_digital/screens/auth/signUp/sign_up_bloc.dart';
 import 'package:farmer_digital/screens/auth/welcome/welcome_screen.dart';
 import 'package:farmer_digital/screens/home/home_screen.dart';
@@ -50,8 +51,9 @@ class _SignUpScreen extends State<SignUpScreen> {
                 if (state.authState == AuthState.authenticated) {
                   pushAndRemoveUntil(
                     context,
-                    HomeScreen(
-                      user: state.user!,
+                    ConfirmSignUpScreen(
+                      email: state.user!.email,
+                      password: state.user!.password,
                     ),
                     false,
                   );

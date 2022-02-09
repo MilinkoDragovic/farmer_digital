@@ -13,11 +13,14 @@ class User {
 
   String mobileNumber;
 
+  String? password;
+
   User({
     this.email = '',
     this.firstName = '',
     this.lastName = '',
     this.userID = '',
     this.mobileNumber = '',
+    this.password = '',
   }) : appIdentifier = 'Flutter Login Screen ${Platform.operatingSystem}';
 }

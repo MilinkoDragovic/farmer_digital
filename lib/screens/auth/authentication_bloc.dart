@@ -34,7 +34,7 @@ class AuthenticationBloc
         if (user == null) {
           emit(const AuthenticationState.unauthenticated());
         } else {
-          emit(AuthenticationState.authenticated(user!));
+          emit(AuthenticationState.authenticated(true));
         }
       }
     });
@@ -48,9 +48,14 @@ class AuthenticationBloc
         event.password,
       );
 
-      if (result != null && result is User) {
-        user = result;
-        emit(AuthenticationState.authenticated(user!));
+      if (result != null && result.isSignedIn) {
+        emit(AuthenticationState.authenticated(result.isSignedIn!));
+      } else if (result == 'notConfirmed' && result is String) {
+        emit(AuthenticationState.noConfirmed(
+          message: result,
+          email: event.email,
+          password: event.password,
+        ));
       } else if (result != null && result is String) {
         emit(AuthenticationState.unauthenticated(message: result));
       } else {
@@ -60,6 +65,18 @@ class AuthenticationBloc
         );
       }
     });
+    on<ConfirmSignUpCodeEvent>(
+      (event, emit) async {
+        dynamic result = await AmplifyUtils.confirmSignUp(
+          event.email,
+          event.code,
+        );
+
+        if (result != null && result.isSignUpComplete) {
+          emit(const AuthenticationState.confirmed(message: 'SignUpComplete'));
+        }
+      },
+    );
     on<SignupWithEmailAndPasswordEvent>((event, emit) async {
       dynamic result = await AmplifyUtils.signUpWithEmailAndPassword(
         emailAddress: event.emailAddress,
@@ -69,9 +86,9 @@ class AuthenticationBloc
         mobileNumber: event.mobileNumber,
       );
 
-      if (result != null && result is User) {
+      if (result != null && result.isSignedUp) {
         user = result;
-        emit(AuthenticationState.authenticated(user!));
+        emit(AuthenticationState.authenticated(result.isSignedUp!));
       } else if (result != null && result is String) {
         emit(AuthenticationState.unauthenticated(message: result));
       } else {
