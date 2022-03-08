@@ -76,15 +76,8 @@ class AmplifyUtils {
         options: CognitoSignUpOptions(userAttributes: userAttributes),
       );
 
-      User user = User(
-        email: emailAddress,
-        firstName: firstName,
-        lastName: lastName,
-        mobileNumber: mobileNumber,
-      );
-
       if (result.isSignUpComplete) {
-        return user;
+        return result;
       } else {
         return 'Couldn\'t sign up for amplify, Please try again.';
       }

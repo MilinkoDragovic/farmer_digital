@@ -13,13 +13,14 @@ part 'authentication_state.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   User? user;
+  bool? isSignedIn;
 
   // Wraps platform-specific persistent storage for simple data (NSUserDefaults on iOS and macOS, SharedPreferences on Android, etc.). Data may be persisted to disk asynchronously, and there is no guarantee that writes will be persisted to disk after returning, so this plugin must not be used for storing critical data.
   late SharedPreferences prefs;
 
   late bool finishedOnBoarding;
 
-  AuthenticationBloc({this.user})
+  AuthenticationBloc({this.isSignedIn})
       : super(const AuthenticationState.unauthenticated()) {
     on<CheckFirstRunEvent>((event, emit) async {
       prefs = await SharedPreferences.getInstance();
@@ -29,12 +30,12 @@ class AuthenticationBloc
         emit(const AuthenticationState.onBoarding());
       } else {
         //user = (await Amplify.Auth.fetchUserAttributes()) as User?;
-        user = null;
+        isSignedIn = false;
 
-        if (user == null) {
+        if (isSignedIn == false) {
           emit(const AuthenticationState.unauthenticated());
         } else {
-          emit(AuthenticationState.authenticated(true));
+          emit(const AuthenticationState.authenticated(true));
         }
       }
     });
@@ -73,7 +74,7 @@ class AuthenticationBloc
         );
 
         if (result != null && result.isSignUpComplete) {
-          emit(const AuthenticationState.confirmed(message: 'SignUpComplete'));
+          emit(AuthenticationState.authenticated(result.isSignUpComplete!));
         }
       },
     );
@@ -86,9 +87,12 @@ class AuthenticationBloc
         mobileNumber: event.mobileNumber,
       );
 
-      if (result != null && result.isSignedUp) {
-        user = result;
-        emit(AuthenticationState.authenticated(result.isSignedUp!));
+      if (result != null && result.isSignUpComplete) {
+        emit(AuthenticationState.signedUp(
+          email: event.emailAddress,
+          password: event.password,
+          isSignedUp: result.isSignUpComplete!,
+        ));
       } else if (result != null && result is String) {
         emit(AuthenticationState.unauthenticated(message: result));
       } else {

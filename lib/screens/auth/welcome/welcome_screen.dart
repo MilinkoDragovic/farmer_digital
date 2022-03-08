@@ -47,7 +47,7 @@ class WelcomeScreen extends StatelessWidget {
                     bottom: 8,
                   ),
                   child: Text(
-                    'Say Hello for your new app!',
+                    'Welcome',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(colorPrimary),
@@ -62,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
                     vertical: 16,
                   ),
                   child: Text(
-                    'You\'ve just saved a week of development and headaches.',
+                    'Some text goes here',
                     style: TextStyle(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),

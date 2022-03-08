@@ -53,8 +53,8 @@ class _ConfirmSignUpScreen extends State<ConfirmSignUpScreen> {
                 listener: (context, state) {
                   context.read<LoadingCubit>().hideLoading();
                   if (state.authState == AuthState.authenticated) {
-                    pushAndRemoveUntil(
-                        context, HomeScreen(user: state.user!), false);
+                    pushAndRemoveUntil(context,
+                        HomeScreen(isAuthenticated: state.isSignedIn!), false);
                   } else if (state.authState == AuthState.confirmed) {
                     context.read<AuthenticationBloc>().add(
                           LoginWithEmailAndPasswordEvent(

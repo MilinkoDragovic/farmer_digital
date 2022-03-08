@@ -3,6 +3,7 @@ import 'package:farmer_digital/screens/auth/authentication_bloc.dart';
 import 'package:farmer_digital/screens/auth/onBoarding/on_boarding_screen.dart';
 import 'package:farmer_digital/screens/auth/welcome/welcome_screen.dart';
 import 'package:farmer_digital/screens/home/home_screen.dart';
+import 'package:farmer_digital/screens/main/main_screen.dart';
 import 'package:farmer_digital/services/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,10 +33,20 @@ class _LauncherScreenState extends State<LauncherScreen> {
               pushReplacement(context, const OnBoardingScreen());
               break;
             case AuthState.authenticated:
-              pushReplacement(context, HomeScreen(user: state.user!));
+              pushReplacement(context,
+                  NavigationHomeScreen(isAuthenticated: state.isSignedIn!));
               break;
             case AuthState.unauthenticated:
               pushReplacement(context, WelcomeScreen());
+              break;
+            case AuthState.noConfirmed:
+              // TODO: Handle this case.
+              break;
+            case AuthState.confirmed:
+              // TODO: Handle this case.
+              break;
+            case AuthState.signedUp:
+              // TODO: Handle this case.
               break;
           }
         },

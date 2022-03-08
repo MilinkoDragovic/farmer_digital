@@ -48,12 +48,12 @@ class _SignUpScreen extends State<SignUpScreen> {
             BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
                 context.read<LoadingCubit>().hideLoading();
-                if (state.authState == AuthState.authenticated) {
+                if (state.authState == AuthState.signedUp) {
                   pushAndRemoveUntil(
                     context,
                     ConfirmSignUpScreen(
-                      email: state.user!.email,
-                      password: state.user!.password,
+                      email: state.email,
+                      password: state.password,
                     ),
                     false,
                   );

@@ -3,6 +3,7 @@ import 'package:farmer_digital/screens/auth/authentication_bloc.dart';
 import 'package:farmer_digital/screens/auth/confirmSignUp/confirm_sign_up_screen.dart';
 import 'package:farmer_digital/screens/auth/login/login_bloc.dart';
 import 'package:farmer_digital/screens/auth/resetPassword/reset_password_screen.dart';
+import 'package:farmer_digital/screens/dashboard/dashboard_screen.dart';
 import 'package:farmer_digital/screens/home/home_screen.dart';
 import 'package:farmer_digital/services/helpers.dart';
 import 'package:farmer_digital/widgets/loader/loading_cubit.dart';
@@ -42,8 +43,7 @@ class _LoginScreen extends State<LoginScreen> {
                 listener: (context, state) {
                   context.read<LoadingCubit>().hideLoading();
                   if (state.authState == AuthState.authenticated) {
-                    pushAndRemoveUntil(
-                        context, HomeScreen(user: state.user!), false);
+                    pushAndRemoveUntil(context, DashboardScreen(), false);
                   } else if (state.authState == AuthState.noConfirmed) {
                     push(
                         context,
@@ -109,6 +109,7 @@ class _LoginScreen extends State<LoginScreen> {
                           left: 24.0,
                         ),
                         child: TextFormField(
+                          initialValue: 'milinko.m.dragovic+32@gmail.com',
                           textAlignVertical: TextAlignVertical.center,
                           textInputAction: TextInputAction.next,
                           validator: validateEmail,
@@ -130,6 +131,7 @@ class _LoginScreen extends State<LoginScreen> {
                         padding: const EdgeInsets.only(
                             top: 32.0, right: 24.0, left: 24.0),
                         child: TextFormField(
+                          initialValue: 'Adriano1704',
                           textAlignVertical: TextAlignVertical.center,
                           obscureText: true,
                           validator: validatePassword,

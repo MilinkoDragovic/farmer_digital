@@ -72,122 +72,131 @@ class CenterNextButton extends StatelessWidget {
               builder: (context, child) => Padding(
                 padding: EdgeInsets.only(
                   bottom: _signUpMoveAnimation.value < 0.7
-                      ? 38
-                      : 50 - (38 * _signUpMoveAnimation.value),
+                      ? 0
+                      : 110 - (38 * _signUpMoveAnimation.value),
                 ),
-                child: Container(
-                  height: 58,
-                  width: 58 + (200 * _signUpMoveAnimation.value),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                        8 + 32 * (1 - _signUpMoveAnimation.value)),
-                    color: const Color(colorPrimary),
-                  ),
-                  child: PageTransitionSwitcher(
-                    duration: const Duration(milliseconds: 480),
-                    reverse: _signUpMoveAnimation.value < 0.7,
-                    transitionBuilder: (
-                      Widget child,
-                      Animation<double> animation,
-                      Animation<double> secondaryAnimation,
-                    ) {
-                      return SharedAxisTransition(
-                        fillColor: Colors.transparent,
-                        child: child,
-                        animation: animation,
-                        secondaryAnimation: secondaryAnimation,
-                        transitionType: SharedAxisTransitionType.vertical,
-                      );
-                    },
-                    child: _signUpMoveAnimation.value > 0.7
-                        ? InkWell(
-                            key: ValueKey('Sign Up button'),
-                            onTap: () {
-                              return push(context, const SignUpScreen());
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Sign Up',
+                child: Column(
+                  children: [
+                    Container(
+                      height: 58,
+                      width: 58 + (200 * _signUpMoveAnimation.value),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                            8 + 32 * (1 - _signUpMoveAnimation.value)),
+                        color: const Color(colorPrimary),
+                      ),
+                      child: PageTransitionSwitcher(
+                        duration: const Duration(milliseconds: 480),
+                        reverse: _signUpMoveAnimation.value < 0.7,
+                        transitionBuilder: (
+                          Widget child,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation,
+                        ) {
+                          return SharedAxisTransition(
+                            fillColor: Colors.transparent,
+                            child: child,
+                            animation: animation,
+                            secondaryAnimation: secondaryAnimation,
+                            transitionType: SharedAxisTransitionType.vertical,
+                          );
+                        },
+                        child: _signUpMoveAnimation.value > 0.7
+                            ? InkWell(
+                                key: ValueKey('Sign Up button'),
+                                onTap: () {
+                                  return push(context, const SignUpScreen());
+                                },
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 16.0, right: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Icon(Icons.arrow_forward_rounded,
+                                          color: Colors.white),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : InkWell(
+                                key: ValueKey('next button'),
+                                onTap: () => onNextClick(),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Icon(Icons.arrow_forward_ios_rounded,
+                                      color: Colors.white),
+                                ),
+                              ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).padding.bottom),
+                      child: SlideTransition(
+                        position: _loginTextMoveAnimation,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: 15.0,
+                                    top: 10.0,
+                                  ),
+                                  child: Text(
+                                    'Already have an account? ',
                                     style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                  Icon(Icons.arrow_forward_rounded,
-                                      color: Colors.white),
-                                ],
-                              ),
-                            ),
-                          )
-                        : InkWell(
-                            key: ValueKey('next button'),
-                            onTap: () => onNextClick(),
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Icon(Icons.arrow_forward_ios_rounded,
-                                  color: Colors.white),
-                            ),
-                          ),
-                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: const Color(colorPrimary),
+                                    textStyle: const TextStyle(
+                                        color: Color(textColor)),
+                                    padding: const EdgeInsets.only(
+                                        top: 12, bottom: 12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      side: const BorderSide(
+                                          color: Color(colorPrimary)),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Log In',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  onPressed: () =>
+                                      push(context, const LoginScreen()),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 100.0),
-            child: SlideTransition(
-              position: _loginTextMoveAnimation,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          bottom: 15.0,
-                          top: 10.0,
-                        ),
-                        child: Text(
-                          'Already have an account? ',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(colorPrimary),
-                          textStyle: const TextStyle(color: Color(textColor)),
-                          padding: const EdgeInsets.only(top: 12, bottom: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            side: const BorderSide(color: Color(colorPrimary)),
-                          ),
-                        ),
-                        child: const Text(
-                          'Log In',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onPressed: () {
-                          return push(context, const LoginScreen());
-                        },
-                      ),
-                    ],
-                  )
-                ],
               ),
             ),
           ),

@@ -44,8 +44,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
   }
 
   void _onSkipClick() {
-    _animationController?.animateTo(0.8,
-        duration: Duration(milliseconds: 1200));
+    _animationController?.animateTo(
+      0.8,
+      duration: const Duration(milliseconds: 1200),
+    );
   }
 
   void _onBackClick() {
@@ -113,9 +115,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
                         _animationController!.value > 0.5
                     ? {
                         _animationController?.animateTo(0.8),
-                        // context
-                        //     .read<AuthenticationBloc>()
-                        //     .add(FinishedOnBoardingEvent()),
+                        context
+                            .read<AuthenticationBloc>()
+                            .add(FinishedOnBoardingEvent()),
                       }
                     : _onNextClick(),
               ),
